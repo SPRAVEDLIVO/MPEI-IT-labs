@@ -21,20 +21,22 @@ void output(int* x, int lenx)
 	}
 }
 
-double prog(int leftborderX, int rightborderX, int* X)
+int prog(int lenX, int leftborderX, int rightborderX, int* X)
 {
-	double pr = 0;
-	for (int i = leftborderX; i <= rightborderX; i++)
+	int sum = 0;
+	for (int i = 0; i < lenX; i++)
 	{
-		pr += X[i];
+		if (X[i] >= leftborderX and X[i] <= rightborderX)
+		{
+			sum += X[i];
+		}
 	}
-	return pr;
+	return sum;
 }
 
 int main()
 {
-	int lenA, lenB, lenC, leftborderA, rightborderA, leftborderB, rightborderB, leftborderC, rightborderC;
-	double resA, resB, resC;
+	int lenA, lenB, lenC, leftborder, rightborder, resA, resB, resC;
 	setlocale(LC_ALL, "Russian");
 	cout << "Длина А: ";
 	cin >> lenA;
@@ -58,46 +60,15 @@ int main()
 	cout << "C: ";
 	output(C, lenC);
 	cout << endl;
-	cout << "Примечание. Далее следует ввод границ подсчётов, программа не даст ввести значения, выходящие за пределы массивов" << endl;
-	// Ввод границ. Не понимаю пока, что делать в случае, когда интервал выходит за границы массива
-	while (true)
-	{
-		cout << "Введите левую границу для А: ";
-		cin >> leftborderA;
-		cout << "Введите правую границу для А: ";
-		cin >> rightborderA;
-		if (leftborderA < lenA and rightborderA < lenA and leftborderA >= 0 and leftborderA <= rightborderA)
-		{
-			break;
-		}
-	}
-	while (true)
-	{
-		cout << "Введите левую границу для В: ";
-		cin >> leftborderB;
-		cout << "Введите правую границу для В: ";
-		cin >> rightborderB;
-		if (leftborderB < lenB and rightborderB < lenB and leftborderB >= 0 and leftborderB <= rightborderB)
-		{
-			break;
-		}
-	}
-	while (true)
-	{
-		cout << "Введите левую границу для C: ";
-		cin >> leftborderC;
-		cout << "Введите правую границу для C: ";
-		cin >> rightborderC;
-		if (leftborderC < lenC and rightborderC < lenC and leftborderC >= 0 and leftborderC <= rightborderC)
-		{
-			break;
-		}
-	}
-	resA = prog(leftborderA, rightborderA, A);
+	cout << "Левая граница поиска: ";
+	cin >> leftborder;
+	cout << "Правая граница поиска: ";
+	cin >> rightborder;
+	resA = prog(lenA, leftborder, rightborder, A);
 	cout << "Результат А " << resA << endl;
-	resB = prog(leftborderB, rightborderB, B);
+	resB = prog(lenB, leftborder, rightborder, B);
 	cout << "Результат В " << resB << endl;
-	resC = prog(leftborderC, rightborderC, C);
+	resC = prog(lenC, leftborder, rightborder, C);
 	cout << "Результат С " << resC << endl;
 	if (resA > resB and resA > resC)
 	{
@@ -111,20 +82,21 @@ int main()
 	{
 		cout << "Наибольшее значение в массиве C" << endl;
 	}
-	if (resA == resB)
+	if (resA == resB and resB != resC)
 	{
 		cout << "Результаты А и В совпадают" << endl;
 	}
-	if (resB == resC)
+	if (resB == resC and resC != resA)
 	{
 		cout << "Результаты B и C совпадают" << endl;
 	}
-	if (resC == resA)
+	if (resC == resA and resC != resB)
 	{
 		cout << "Результаты А и C совпадают" << endl;
 	}
-	if (resA == resB == resC)
+	if (resA == resB and resB == resC)
 	{
 		cout << "Результаты А B C совпадают" << endl;
 	}
+	system("pause");
 }
