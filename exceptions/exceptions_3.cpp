@@ -11,54 +11,54 @@ int substract(int a, int b) {
 }
 
 class vect {
-    private:
-        int size;
-        int* base;
-        string name;
-    public:
-        vect(int size, string name) {
-            this->size = size;
-            this->name = name;
-            base = new int[size];
+private:
+    int size;
+    int* base;
+    string name;
+public:
+    vect(int size, string name) {
+        this->size = size;
+        this->name = name;
+        base = new int[size];
+    }
+    int& elem(int a) {
+        if (a > size - 1 || a < 0) {
+            throw name + string(": Element index is invalid.");
         }
-        int& elem(int a) {
-            if (a > size-1 || a < 0) {
-                throw name + string(": Element index is invalid.");
-            }
-            return base[a];
-        }
+        return base[a];
+    }
 
-        vect& variable_operator(vect& right, int (*adder)(int, int)) {
-            if (right.size != size) {
-                throw string("Vectors are of different size.");
-            }
-            vect allocated(size, "result");
-            
-            for (int i = 0; i < size; i++) {
-                allocated.base[i] = adder(base[i], right.base[i]);
-            }
-            return allocated;
+    vect variable_operator(vect& right, int (*adder)(int, int)) {
+        if (right.size != size) {
+            throw string("Vectors are of different size.");
         }
+        vect allocated(size, "result");
 
-        vect& operator+(vect& right) {
-            return variable_operator(right, add);
+        for (int i = 0; i < size; i++) {
+            allocated.base[i] = adder(base[i], right.base[i]);
         }
-        vect& operator-(vect& right) {
-            return variable_operator(right, substract);
+        return allocated;
+    }
+
+    vect operator+(vect& right) {
+        return variable_operator(right, add);
+    }
+    vect operator-(vect& right) {
+        return variable_operator(right, substract);
+    }
+    void input(string name) {
+        for (int i = 0; i < size; i++) {
+            cout << name << "[" << i << "] = "; cin >> elem(i);
         }
-        void input(string name) {
-            for (int i = 0; i < size; i++) {
-                cout << name << "[" << i << "] = "; cin >> elem(i);
-            }
+    }
+    void print() {
+        for (int i = 0; i < size; i++) {
+            cout << name << "[" << i << "] = " << elem(i) << endl;
         }
-        void print() {
-            for (int i = 0; i < size; i++) {
-                cout << name << "[" << i << "] = " << elem(i) << endl;
-            }
-        }
-        void set_name(string name) {
-            this->name = name;
-        }
+    }
+    void set_name(string name) {
+        this->name = name;
+    }
 };
 
 int main() {
